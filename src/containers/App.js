@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
 //import Radium, { StyleRoot } from 'radium';
-import Person from './Person/Person';
+import Person from '../components/Persons/Person/Person';
 
 class App extends Component {
   state = {
@@ -43,19 +43,6 @@ class App extends Component {
   };
 
   render() {
-    // const style = {
-    //   // backgroundColor: 'green',
-    //   // color: 'white',
-    //   // font: 'inherit',
-    //   // border: '1px solid blue',
-    //   // padding: '8px',
-    //   // cursor: 'pointer',
-    //   // ':hover': { RADIUM}
-    //   //   backgroundColor: 'lightgreen',
-    //   //   color: 'black',
-    //   // },
-    // };
-
     let persons = null;
     let btnClass = '';
 
