@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
+
 import classes from './App.css';
-//import Radium, { StyleRoot } from 'radium';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import WithClass from '../hoc/WithClass';
 
 class App extends PureComponent {
   constructor(props) {
@@ -10,9 +11,9 @@ class App extends PureComponent {
     console.log('[App.js] Inside Constructor', props);
     this.state = {
       persons: [
-        { id: 'asdf', name: 'Max', age: 28 },
-        { id: 'as1df', name: 'Manu', age: 29 },
-        { id: 'as2df', name: 'Stephanie', age: 26 },
+        { id: 'asfa1', name: 'Max', age: 28 },
+        { id: 'vasdf1', name: 'Manu', age: 29 },
+        { id: 'asdf11', name: 'Stephanie', age: 26 },
       ],
       otherState: 'some other value',
       showPersons: false,
@@ -24,61 +25,58 @@ class App extends PureComponent {
   }
 
   componentDidMount() {
-    console.log('[App.js] inside componentDidMount()');
+    console.log('[App.js] Inside componentDidMount()');
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log(
-  //     '[UPDATE App.js] inside shouldcomponentupdate',
-  //     nextProps,
-  //     nextState
-  //   );
-  //   return (
-  //     nextState.persons !== this.state.persons ||
-  //     nextState.showPersons !== this.state.showPersons
-  //   );
+  // shouldComponentUpdate ( nextProps, nextState ) {
+  //   console.log( '[UPDATE App.js] Inside shouldComponentUpdate', nextProps, nextState );
+  //   return nextState.persons !== this.state.persons ||
+  //     nextState.showPersons !== this.state.showPersons;
   // }
 
   componentWillUpdate(nextProps, nextState) {
     console.log(
-      '[UPDATE App.js] inside componentwillupdate',
+      '[UPDATE App.js] Inside componentWillUpdate',
       nextProps,
       nextState
     );
   }
 
   componentDidUpdate() {
-    console.log('[UPDATE App.js] inside componentDidupdate');
+    console.log('[UPDATE App.js] Inside componentDidUpdate');
   }
 
   // state = {
   //   persons: [
-  //     { id: 'asdf', name: 'Max', age: 28 },
-  //     { id: 'as1df', name: 'Manu', age: 29 },
-  //     { id: 'as2df', name: 'Stephanie', age: 26 },
+  //     { id: 'asfa1', name: 'Max', age: 28 },
+  //     { id: 'vasdf1', name: 'Manu', age: 29 },
+  //     { id: 'asdf11', name: 'Stephanie', age: 26 }
   //   ],
   //   otherState: 'some other value',
-  //   showPersons: false,
-  // };
+  //   showPersons: false
+  // }
 
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex((p) => {
       return p.id === id;
     });
 
-    const person = { ...this.state.persons[personIndex] };
+    const person = {
+      ...this.state.persons[personIndex],
+    };
+
+    // const person = Object.assign({}, this.state.persons[personIndex]);
 
     person.name = event.target.value;
+
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({
-      persons: persons,
-    });
+    this.setState({ persons: persons });
   };
 
   deletePersonHandler = (personIndex) => {
-    //const persons = this.state.persons.slice();
+    // const persons = this.state.persons.slice();
     const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     this.setState({ persons: persons });
@@ -90,30 +88,27 @@ class App extends PureComponent {
   };
 
   render() {
-    console.log('[App.js] inside render()');
+    console.log('[App.js] Inside render()');
     let persons = null;
 
     if (this.state.showPersons) {
       persons = (
-        <div>
-          <Persons
-            persons={this.state.persons}
-            clicked={this.deletePersonHandler}
-            changed={this.nameChangedHandler}
-          />
-        </div>
+        <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler}
+        />
       );
     }
 
     return (
-      //<StyleRoot>
-      <div className={classes.App}>
+      <WithClass classes={classes.App}>
         <button
           onClick={() => {
             this.setState({ showPersons: true });
           }}
         >
-          show persons
+          Show Persons
         </button>
         <Cockpit
           appTitle={this.props.title}
@@ -122,10 +117,10 @@ class App extends PureComponent {
           clicked={this.togglePersonsHandler}
         />
         {persons}
-      </div>
-      //</StyleRoot>
+      </WithClass>
     );
+    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
-export default App; // Radium(App);
+export default App;
