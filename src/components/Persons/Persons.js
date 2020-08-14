@@ -6,6 +6,7 @@ class Persons extends PureComponent {
   constructor(props) {
     super(props);
     console.log('[Persons.js] Inside Constructor', props);
+    this.lastPersonRef = React.createRef();
   }
 
   componentWillMount() {
@@ -13,36 +14,35 @@ class Persons extends PureComponent {
   }
 
   componentDidMount() {
-    console.log('[Persons.js] inside componentDidMount()');
+    console.log('[Persons.js] Inside componentDidMount()');
+    this.lastPersonRef.current.focus();
   }
 
-  componentWillReceiveProps(props) {
-    console.log('[UPDATE Persons.js] inside componentwillreceiveprops', props);
+  componentWillReceiveProps(nextProps) {
+    console.log(
+      '[UPDATE Persons.js] Inside componentWillReceiveProps',
+      nextProps
+    );
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log(
-  //     '[UPDATE Persons.js] inside shouldcomponentupdate',
-  //     nextProps,
-  //     nextState
-  //   );
-  //   return (
-  //     nextProps.persons !== this.props.persons ||
-  //     nextProps.changed !== this.props.changed ||
-  //     nextProps.clicked !== this.props.clicked
-  //   );
+  // shouldComponentUpdate ( nextProps, nextState ) {
+  //     console.log( '[UPDATE Persons.js] Inside shouldComponentUpdate', nextProps, nextState );
+  //     return nextProps.persons !== this.props.persons ||
+  //         nextProps.changed !== this.props.changed ||
+  //         nextProps.clicked !== this.props.clicked;
+  //     // return true;
   // }
 
   componentWillUpdate(nextProps, nextState) {
     console.log(
-      '[UPDATE Persons.js] inside componentwillupdate',
+      '[UPDATE Persons.js] Inside componentWillUpdate',
       nextProps,
       nextState
     );
   }
 
   componentDidUpdate() {
-    console.log('[UPDATE Persons.js] inside componentDidupdate');
+    console.log('[UPDATE Persons.js] Inside componentDidUpdate');
   }
 
   render() {
@@ -54,6 +54,7 @@ class Persons extends PureComponent {
           name={person.name}
           position={index}
           age={person.age}
+          ref={this.lastPersonRef}
           key={person.id}
           changed={(event) => this.props.changed(event, person.id)}
         />
